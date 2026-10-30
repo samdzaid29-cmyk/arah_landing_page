@@ -11,7 +11,10 @@ const TOTAL_FRAMES = 270;
  */
 const getFramePath = (index) => {
   const num = String(index + 1).padStart(3, '0');
-  return `/frames/ezgif-frame-${num}.jpg`;
+  const base = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+  return `${base}frames/ezgif-frame-${num}.jpg`;
 };
 
 /**
@@ -85,7 +88,10 @@ export default function CanvasSequenceBackground({
       img.onerror = () => {
         if (!isMounted) return;
         const num = String(i + 1).padStart(3, '0');
-        img.src = `/ezgif-frame-${num}.jpg`;
+        const base = import.meta.env.BASE_URL.endsWith('/')
+          ? import.meta.env.BASE_URL
+          : `${import.meta.env.BASE_URL}/`;
+        img.src = `${base}ezgif-frame-${num}.jpg`;
       };
       loadedImages.push(img);
     }
