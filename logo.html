@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>ARAH Loading</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&display=swap">
+    <style>
+        :root {
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+            background: var(--bg);
+            cursor: pointer;
+            transition: background .4s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body[data-theme="dark"] {
+            --bg: #000;
+            --dia: #f2ff00;
+            --node: #f2ff00;
+            --letter: #0a0a0a;
+            --ring: rgba(255, 255, 255, .30);
+            --ring2: rgba(255, 255, 255, .55);
+            --disc: rgba(255, 255, 255, .04);
+            --beam: #e6f200;
+            --beamA: .8;
+            --logo: #fff;
+            --glow: rgba(242, 255, 0, .55);
+        }
+
+        body[data-theme="light"] {
+            --bg: #fff;
+            --dia: #0a0a0a;
+            --node: #0a0a0a;
+            --letter: #fff;
+            --ring: rgba(0, 0, 0, .16);
+            --ring2: rgba(0, 0, 0, .45);
+            --disc: rgba(0, 0, 0, .03);
+            --beam: #000;
+            --beamA: .22;
+            --logo: #0a0a0a;
+            --glow: rgba(0, 0, 0, 0);
+        }
+
+        svg {
+            width: min(96vmin, 780px);
+            height: auto;
+            display: block;
+            overflow: visible;
+        }
+
+        .glow {
+            filter: drop-shadow(0 0 12px var(--glow));
+        }
+
+        body[data-theme="dark"] {
+            --wtext: rgba(255, 255, 255, .92);
+            --accent: #f2ff00;
+        }
+
+        body[data-theme="light"] {
+            --wtext: #6a6a6a;
+            --accent: #0a0a0a;
+        }
+
+        .w {
+            font: 600 56px 'Chakra Petch', 'Rajdhani', 'Segoe UI', sans-serif;
+            letter-spacing: .14em;
+            fill: var(--wtext);
+            text-anchor: middle;
+        }
+
+        .w .a {
+            fill: var(--accent);
+        }
+
+        .ctl {
+            position: fixed;
+            top: calc(env(safe-area-inset-top, 0px) + 12px);
+            right: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .ctl button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--ring2);
+            background: transparent;
+            color: var(--logo);
+            padding: 9px;
+            cursor: pointer;
+        }
+
+        .ctl svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        #snd[data-on="1"] .off,
+        #snd[data-on="0"] .on {
+            display: none;
+        }
+
+        #snd[data-on="0"] {
+            animation: hint 1.6s ease-in-out infinite;
+        }
+
+        @keyframes hint {
+            50% {
+                box-shadow: 0 0 0 6px var(--ring);
+            }
+        }
+    </style>
+</head>
+
+<body data-theme="dark">
+    <svg viewBox="0 0 1000 1000" role="img" aria-label="ARAH loading">
+        <defs>
+            <linearGradient id="bg" x1="0" x2="0" y1="1" y2="0">
+                <stop offset="0" stop-color="var(--beam)" stop-opacity="var(--beamA)" />
+                <stop offset="1" stop-color="var(--beam)" stop-opacity="0" />
+            </linearGradient>
+            <clipPath id="cc">
+                <circle r="156" />
+            </clipPath>
+            <clipPath id="cp">
+                <polygon id="cpp" points="0,0" />
+            </clipPath>
+            <path id="gA1" fill-rule="evenodd"
+                d="M202 488H218L351 763H296L278 722H136L118 763H63Z M208 578L244 650L208 714L173 650Z" />
+            <path id="gR"
+                d="M382 488H500C560 488 599 520 599 580C599 625 575 652 540 665L613 763H549L462 648V628H500C530 628 548 610 548 583C548 556 530 538 500 538H431V763H382Z" />
+            <path id="gA2" fill-rule="evenodd"
+                d="M762 488H778L907 763H852L834 722H702L685 763H629Z M768 580L802 650L768 714L736 650Z" />
+            <path id="gH" d="M939 490H990V600H1125V490H1173V763H1125V650H990V763H939Z" />
+        </defs>
+
+        <g id="scene" class="glow">
+            <polygon id="beam" points="-72,0 72,0 340,-380 -340,-380" fill="url(#bg)" />
+            <ellipse id="disc" rx="190" ry="190" fill="var(--disc)" />
+            <ellipse id="r1" rx="190" ry="190" fill="none" stroke="var(--ring)" stroke-width="14" />
+            <ellipse id="r2" rx="178" ry="178" fill="none" stroke="var(--ring2)" stroke-width="3" />
+            <g id="dia">
+                <polygon id="dp" fill="var(--dia)" clip-path="url(#cc)" />
+                <g id="letters" clip-path="url(#cp)" fill="var(--letter)">
+                    <use href="#gA1" />
+                    <use href="#gR" />
+                    <use href="#gA2" />
+                    <use href="#gH" />
+                </g>
+            </g>
+            <g id="logo" fill="var(--logo)">
+                <g transform="translate(-222.5 -475.2) scale(.36)">
+                    <use href="#gA1" />
+                    <use href="#gR" />
+                    <use href="#gA2" />
+                    <use href="#gH" />
+                </g>
+            </g>
+            <g id="nodes" fill="var(--node)">
+                <ellipse />
+                <ellipse />
+                <ellipse />
+                <ellipse />
+            </g>
+        </g>
+        <g id="words" class="glow">
+            <text class="w" opacity="0">
+                <tspan class="a">A</tspan>UTONOMOUS
+            </text>
+            <text class="w" opacity="0">
+                <tspan class="a">R</tspan>EASONING
+            </text>
+            <text class="w" opacity="0">
+                <tspan class="a">A</tspan>DAPTIVE
+            </text>
+            <text class="w" opacity="0">
+                <tspan class="a">H</tspan>EURISTIC
+            </text>
+        </g>
+    </svg>
+    <div class="ctl">
+        <button id="snd" data-on="0" aria-label="Toggle sound"><svg viewBox="0 0 24 24">
+                <path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor" />
+                <g class="on" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M16 9a4 4 0 0 1 0 6" />
+                    <path d="M18.5 6.5a8 8 0 0 1 0 11" />
+                </g>
+                <path class="off" d="M17 9l5 6M22 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    fill="none" />
+            </svg></button>
+        <button id="thm" aria-label="Toggle theme"><svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+                <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
+            </svg></button>
+    </div>
+
+    <script>
+        (function () {
+            var $ = function (i) { return document.getElementById(i); };
+            var LOOP = 6, R = 190, S = 0.3;
+            var scene = $("scene"), beam = $("beam"), disc = $("disc"), r1 = $("r1"), r2 = $("r2"),
+                dia = $("dia"), dp = $("dp"), cpp = $("cpp"), logo = $("logo"),
+                nodes = $("nodes").children, lets = $("letters").children;
+            var cx = [207, 497.5, 768, 1056];
+            var clamp = function (x) { return Math.max(0, Math.min(1, x)); };
+            var ease = function (x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+            var lerp = function (a, b, m) { return a + (b - a) * m; };
+            var STEPS = [1.5, 2.25, 3.0];
+
+            // hourglass -> diamond share six vertices so they morph cleanly
+            var HG = [[-.72, -.9], [.72, -.9], [.1, 0], [.72, .9], [-.72, .9], [-.1, 0]];
+            var DM = [[0, -.82], [0, -.82], [.5, 0], [0, .82], [0, .82], [-.5, 0]];
+
+            function frame(t) {
+                var g = ease(clamp(t / 0.8)), shrink = ease(clamp((t - 5.45) / 0.55));
+                var sc = 0.45 + 0.55 * g * (1 - shrink);
+                var tin = ease(clamp((t - 3.8) / 0.7)), tout = ease(clamp((t - 5.4) / 0.5));
+                var tau = tin * (1 - tout), c = 1 - 0.7 * tau, cy = 500 + 120 * tau;
+                scene.setAttribute("transform", "translate(500 " + cy.toFixed(1) + ") scale(" + sc.toFixed(4) + ")");
+
+                // ring + disc flatten into a platform
+                [disc, r1, r2].forEach(function (e, i) {
+                    var rr = i === 2 ? 178 : 190;
+                    e.setAttribute("ry", (rr * c).toFixed(2));
+                });
+
+                // diamond core
+                var m = ease(clamp((t - 0.1) / 0.8)) * (1 - ease(clamp((t - 5.3) / 0.5)));
+                var pts = HG.map(function (h, i) {
+                    return (lerp(h[0], DM[i][0], m) * R).toFixed(1) + "," + (lerp(h[1], DM[i][1], m) * R).toFixed(1);
+                }).join(" ");
+                dp.setAttribute("points", pts); cpp.setAttribute("points", pts);
+                dia.setAttribute("transform", "scale(1 " + c.toFixed(3) + ")");
+
+                // letters slide through the diamond like the reference's icons
+                var u = 0; STEPS.forEach(function (s) { u += ease(clamp((t - s) / 0.4)); });
+                var lv = ease(clamp((t - 0.55) / 0.35)) * (1 - ease(clamp((t - 3.65) / 0.4)));
+                $("letters").setAttribute("opacity", lv.toFixed(3));
+                for (var i = 0; i < 4; i++) {
+                    lets[i].setAttribute("transform", "translate(" + ((i - u) * 150).toFixed(1) + " 0) scale(" + S + ") translate(" + (-cx[i]) + " -625.5)");
+                }
+
+                // light beam rises, ARAH appears inside it
+                var b = ease(clamp((t - 4.2) / 0.5)) * (1 - ease(clamp((t - 5.3) / 0.4)));
+                beam.setAttribute("transform", "scale(1 " + Math.max(b, 0.001).toFixed(3) + ")");
+                var li = ease(clamp((t - 4.45) / 0.45)), lo = ease(clamp((t - 5.25) / 0.35));
+                logo.setAttribute("opacity", (li * (1 - lo)).toFixed(3));
+                logo.setAttribute("transform", "translate(0 " + ((1 - li) * 24 - lo * 20).toFixed(1) + ")");
+
+                // four nodes orbit in quarter-turn steps (4 steps = one full turn, seamless)
+                var rot = ease(clamp((t - 0.45) / 0.7));
+                STEPS.forEach(function (s) { rot += ease(clamp((t - s) / 0.45)); });
+                rot *= Math.PI / 2;
+                for (var k = 0; k < 4; k++) {
+                    var a = rot + k * Math.PI / 2 - Math.PI / 2, rx = 16;
+                    nodes[k].setAttribute("cx", (R * Math.cos(a)).toFixed(1));
+                    nodes[k].setAttribute("cy", (R * c * Math.sin(a)).toFixed(1));
+                    nodes[k].setAttribute("rx", rx);
+                    nodes[k].setAttribute("ry", (rx * (0.4 + 0.6 * c)).toFixed(2));
+                }
+                words(t);
+            }
+
+            // ---- meaning of each letter pops up as it lands ----
+            var words_ = document.querySelectorAll(".w");
+            var P = [0.8, 1.7, 2.45, 3.2], WEND = 3.75;
+            var back = function (x) { var y = x - 1; return 1 + 2.70158 * y * y * y + 1.70158 * y * y; };
+            function words(t) {
+                for (var i = 0; i < 4; i++) {
+                    var s = P[i], e = i < 3 ? P[i + 1] : WEND, el = words_[i];
+                    if (t < s || t >= e) { el.setAttribute("opacity", 0); continue; }
+                    var inP = clamp((t - s) / 0.35), outP = clamp((e - t) / 0.2);
+                    var k = 0.7 + 0.3 * back(inP);
+                    el.setAttribute("opacity", (inP * outP).toFixed(3));
+                    el.setAttribute("transform", "translate(500 820) scale(" + k.toFixed(3) + ") translate(0 " + ((1 - inP) * 14).toFixed(1) + ")");
+                }
+            }
+
+            // ---- synthesized sound (Web Audio, no files) ----
+            var AC = null, master, noiseBuf, soundOn = true, snd = $("snd");
+            function ctx() {
+                if (AC) return AC;
+                var C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
+                AC = new C(); master = AC.createGain(); master.gain.value = 0.5;
+                var comp = AC.createDynamicsCompressor(); master.connect(comp); comp.connect(AC.destination);
+                noiseBuf = AC.createBuffer(1, AC.sampleRate, AC.sampleRate);
+                var d = noiseBuf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+                return AC;
+            }
+            function audioOn() { return AC && AC.state === "running" && soundOn; }
+            function refresh() { snd.setAttribute("data-on", audioOn() ? "1" : "0"); }
+            function unlock() { if (!ctx()) return; if (AC.state !== "running") AC.resume().then(refresh, refresh); refresh(); }
+            function tone(f0, f1, dur, type, vol, delay) {
+                var t = AC.currentTime + (delay || 0), o = AC.createOscillator(), g = AC.createGain();
+                o.type = type; o.frequency.setValueAtTime(f0, t);
+                if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+                g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.012);
+                g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+                o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.05);
+            }
+            function noise(dur, f0, f1, vol, q) {
+                var t = AC.currentTime, s = AC.createBufferSource(), f = AC.createBiquadFilter(), g = AC.createGain();
+                s.buffer = noiseBuf; s.loop = true; f.type = "bandpass"; f.Q.value = q || 1;
+                f.frequency.setValueAtTime(f0, t); f.frequency.exponentialRampToValueAtTime(f1, t + dur);
+                g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + dur * 0.35);
+                g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+                s.connect(f); f.connect(g); g.connect(master); s.start(t); s.stop(t + dur + 0.05);
+            }
+            var NOTE = [659, 784, 988, 1319];
+            function play(n) {
+                if (n === "power") { tone(110, 440, 0.8, "sine", 0.32); tone(220, 880, 0.8, "triangle", 0.1); noise(0.7, 300, 2500, 0.1); }
+                else if (n.indexOf("pop") === 0) {
+                    var f = NOTE[+n.slice(3)];
+                    tone(f * 0.5, f, 0.08, "sine", 0.25); tone(f, f, 0.55, "triangle", 0.2); tone(f * 2, f * 2, 0.3, "sine", 0.06);
+                }
+                else if (n === "slide") noise(0.28, 800, 2400, 0.08, 1.2);
+                else if (n === "tilt") { noise(0.8, 300, 3000, 0.15, 0.8); tone(180, 90, 0.8, "sine", 0.18); }
+                else if (n === "beam") { tone(300, 1100, 0.7, "sine", 0.13); tone(303, 1106, 0.7, "sine", 0.09); }
+                else if (n === "reveal") { [880, 1318.5, 1760, 2217].forEach(function (f, i) { tone(f, f, 1.3, "sine", 0.11, i * 0.06); }); }
+                else if (n === "reset") { tone(700, 140, 0.6, "sine", 0.16); noise(0.5, 2500, 300, 0.09); }
+            }
+            var EV = [[0.12, "power"], [0.8, "pop0"], [1.5, "slide"], [1.7, "pop1"], [2.25, "slide"], [2.45, "pop2"],
+            [3.0, "slide"], [3.2, "pop3"], [3.85, "tilt"], [4.2, "beam"], [4.5, "reveal"], [5.4, "reset"]];
+
+            var fromCtl = function (e) { return e.target.closest && e.target.closest(".ctl"); };
+            document.addEventListener("pointerdown", function (e) { if (!fromCtl(e)) unlock(); });
+            document.addEventListener("keydown", unlock);
+            snd.addEventListener("click", function () {
+                if (!AC || AC.state !== "running") { soundOn = true; unlock(); } else { soundOn = !soundOn; refresh(); }
+            });
+            $("thm").addEventListener("click", function () {
+                var b = document.body;
+                b.setAttribute("data-theme", b.getAttribute("data-theme") === "dark" ? "light" : "dark");
+            });
+            if (/theme=light/.test(location.search)) document.body.setAttribute("data-theme", "light");
+
+            if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { frame(4.9); return; }
+            var t0 = performance.now(), prev = 0, last = t0;
+            (function loop(now) {
+                var t = ((now - t0) / 1000) % LOOP, dt = (now - last) / 1000; last = now;
+                if (dt < 0.4 && audioOn()) {
+                    EV.forEach(function (e) {
+                        var a = e[0], hit = t >= prev ? (prev < a && a <= t) : (a > prev || a <= t);
+                        if (hit) play(e[1]);
+                    });
+                }
+                prev = t; frame(t); requestAnimationFrame(loop);
+            })(t0);
+        })();
+    </script>
+</body>
+
+</html>
